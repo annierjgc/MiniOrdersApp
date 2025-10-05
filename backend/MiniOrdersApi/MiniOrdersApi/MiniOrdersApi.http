@@ -1,0 +1,6 @@
+@MiniOrdersApi_HostAddress = http://localhost:5176
+
+GET {{MiniOrdersApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

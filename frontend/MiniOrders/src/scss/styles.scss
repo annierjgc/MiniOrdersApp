@@ -1,3 +1,6 @@
+// Import all of Bootstrap’s CSS
+@import "bootstrap/scss/bootstrap";
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -63,6 +66,19 @@ button:focus-visible {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.table th,
+.table td {
+  border: 1px solid #fffdfd;
+  padding: 8px;
+}
+.table th {
+  background-color: #a1a1a1;
 }
 
 @media (prefers-color-scheme: light) {
