@@ -2,6 +2,8 @@
   <div class="p-4">
     <h2 class="text-2xl font-bold mb-4">Gestión de Órdenes</h2>
 
+    <div v-if="errorMessage" class="alert alert-danger mb-3">{{ errorMessage }}</div>
+
     <!-- Botón para abrir modal -->
     <button class="btn btn-primary mb-3" @click="openModal()"> Nueva Orden</button>
 
@@ -10,7 +12,7 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th >Cliente</th>
+          <th>Cliente</th>
           <th>Fecha</th>
           <th>Cantidad</th>
           <th>Total</th>
@@ -41,7 +43,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" @click="resetForm"></button>
 
           </div>
-          <form @submit.prevent="saveOrder">
+          <form @submit.prevent="saveOrder" autocomplete="off">
             <div class="modal-body">
               <div class="mb-3">
                 <label class="form-label">Cliente</label>
@@ -79,22 +81,26 @@ import * as bootstrap from 'bootstrap'
 const API_URL = 'http://localhost:5176/api/orders'
 const orders = ref([])
 const editing = ref(false)
-const form = ref({ id: null, cliente: '', fecha: '', cantidad: 0, total: 0 })
+const today = new Date().toISOString().split('T')[0]
+const form = ref({ Id: null, Cliente: '', Fecha: today, Cantidad: 1, Total: 0 })
 const modalElement = ref(null)
-let modalInstance = null
+const errorMessage = ref('')
+const modalInstance = ref(null)
 
 onMounted(async () => {
   await fetchOrders()
   await nextTick()
-  modalInstance = new bootstrap.Modal(modalElement.value)
+  modalInstance.value = new bootstrap.Modal(modalElement.value)
 })
 
 const fetchOrders = async () => {
   try {
     const res = await axios.get(API_URL)
     orders.value = res.data
+    errorMessage.value = ''
   } catch (err) {
     console.error('Error al obtener órdenes:', err)
+    errorMessage.value = 'No se pudieron obtener las órdenes. Intente más tarde.'
   }
 }
 
@@ -105,23 +111,34 @@ const openModal = (order = null) => {
   } else {
     resetForm()
   }
-  modalInstance.show()
+  modalInstance.value.show()
 }
 
 const saveOrder = async () => {
   try {
+    const orderPayload = {
+      Id: form.value.id ?? "00000000-0000-0000-0000-000000000000",
+      Cliente: form.value.cliente,
+      Fecha: new Date(form.value.fecha).toISOString(), // formato correcto ISO
+      Cantidad: Number(form.value.cantidad),
+      Total: Number(form.value.total)
+    };
+
     if (editing.value) {
-      await axios.put(`${API_URL}/${form.value.id}`, form.value)
+      await axios.put(`${API_URL}/${form.value.id}`, orderPayload);
     } else {
-      await axios.post(API_URL, form.value)
+      await axios.post(API_URL, orderPayload);
     }
-    await fetchOrders()
-    modalInstance.hide()
-    resetForm()
+
+    await fetchOrders();
+    modalInstance.value.hide();
+    resetForm();
+    errorMessage.value = '';
   } catch (err) {
-    console.error('Error al guardar la orden:', err)
+    console.error('Error al guardar la orden:', err.response?.data || err.message);
+    errorMessage.value = 'No se pudo guardar la orden. Revise los datos e intente nuevamente.';
   }
-}
+};
 
 
 const deleteOrder = async (id) => {
@@ -129,16 +146,19 @@ const deleteOrder = async (id) => {
   try {
     await axios.delete(`${API_URL}/${id}`)
     await fetchOrders()
+    errorMessage.value = ''
   } catch (err) {
     console.error('Error al eliminar la orden:', err)
+    errorMessage.value = 'No se pudo eliminar la orden. Intente más tarde.'
   }
 }
 
 const resetForm = () => {
-  form.value = { id: null, cliente: '', fecha: '', cantidad: 0, total: 0 }
+  form.value = { id: null, cliente: '', fecha: '', cantidad: 1, total: 0 }
   editing.value = false
 }
 </script>
+
 
 <style scoped>
 .table {

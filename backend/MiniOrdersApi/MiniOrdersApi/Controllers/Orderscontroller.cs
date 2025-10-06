@@ -6,12 +6,12 @@ namespace MiniOrdersApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class Orderscontroller : ControllerBase
+    public class OrdersController : ControllerBase
     {
-        private static List<Order> orders = new List<Order>
+        private static readonly List<Order> orders = new List<Order>
         {
-            new Order { Id = Guid.NewGuid(), Cliente = "Juan Pérez", Fecha = DateTime.Now.AddDays(-1), Cantidad = 1, Total = 1199.99M },
-            new Order { Id = Guid.NewGuid(), Cliente = "María López", Fecha = DateTime.Now, Cantidad = 1, Total = 849.99M }
+            //new Order { Id = Guid.NewGuid(), Cliente = "Juan Pérez", Fecha = DateTime.Now.AddDays(-1), Cantidad = 1, Total = 1199.99M },
+            //new Order { Id = Guid.NewGuid(), Cliente = "María López", Fecha = DateTime.Now, Cantidad = 1, Total = 849.99M }
         };
 
         [HttpGet]
