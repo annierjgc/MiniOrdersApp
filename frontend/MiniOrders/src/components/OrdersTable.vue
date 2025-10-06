@@ -7,10 +7,10 @@
 
     <!-- Tabla -->
     <table class="table table-bordered table-hover">
-      <thead class="table-dark">
+      <thead>
         <tr>
           <th>ID</th>
-          <th>Cliente</th>
+          <th >Cliente</th>
           <th>Fecha</th>
           <th>Cantidad</th>
           <th>Total</th>
@@ -39,6 +39,7 @@
           <div class="modal-header">
             <h5 class="modal-title">{{ editing ? 'Editar Orden' : 'Nueva Orden' }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" @click="resetForm"></button>
+
           </div>
           <form @submit.prevent="saveOrder">
             <div class="modal-body">
@@ -59,10 +60,10 @@
                 <input type="number" v-model="form.total" class="form-control" required />
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="resetForm">Cancelar</button>
-              <button type="submit" class="btn btn-primary">{{ editing ? 'Actualizar' : 'Guardar' }}</button>
-            </div>
+
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">{{ editing ? 'Actualizar' : 'Guardar' }}</button>
+              </div>
           </form>
         </div>
       </div>
@@ -121,6 +122,7 @@ const saveOrder = async () => {
     console.error('Error al guardar la orden:', err)
   }
 }
+
 
 const deleteOrder = async (id) => {
   if (!confirm('¿Estás seguro de eliminar esta orden?')) return

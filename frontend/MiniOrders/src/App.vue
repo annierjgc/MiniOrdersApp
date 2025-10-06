@@ -29,12 +29,12 @@ import HelloWorld from './components/HelloWorld.vue'
 }
 </style> -->
 
+<script setup>
+import OrdersTable from './components/OrdersTable.vue'
+</script>
+
 <template>
   <div class="container mt-5">
     <OrdersTable />
   </div>
 </template>
-
-<script setup>
-import OrdersTable from './components/OrdersTable.vue'
-</script>

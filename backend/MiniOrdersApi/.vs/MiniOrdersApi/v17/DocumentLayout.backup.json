@@ -32,10 +32,9 @@
               "RelativeDocumentMoniker": "MiniOrdersApi\\Models\\Orders.cs",
               "ToolTip": "D:\\Desktop\\Workspace\\MiniOrdersApp\\backend\\MiniOrdersApi\\MiniOrdersApi\\Models\\Orders.cs",
               "RelativeToolTip": "MiniOrdersApi\\Models\\Orders.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-05T20:07:44.498Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-05T20:07:44.498Z"
             },
             {
               "$type": "Document",
@@ -45,7 +44,7 @@
               "RelativeDocumentMoniker": "MiniOrdersApi\\Controllers\\Orderscontroller.cs",
               "ToolTip": "D:\\Desktop\\Workspace\\MiniOrdersApp\\backend\\MiniOrdersApi\\MiniOrdersApi\\Controllers\\Orderscontroller.cs",
               "RelativeToolTip": "MiniOrdersApi\\Controllers\\Orderscontroller.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABtAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-05T19:58:49.313Z",
               "EditorCaption": ""
@@ -60,8 +59,7 @@
               "RelativeToolTip": "MiniOrdersApi\\Program.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAowCwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-05T19:56:08.82Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-05T19:56:08.82Z"
             }
           ]
         }

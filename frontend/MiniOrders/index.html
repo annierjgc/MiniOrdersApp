@@ -1,13 +1,216 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mini-orders</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestión de Órdenes</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      background-color: #fff;
+    }
+
+    .table thead {
+      background-color: #0d6efd;
+      color: white;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f2f6ff;
+      transition: 0.2s;
+    }
+
+    .btn {
+      border-radius: 6px;
+    }
+
+    .modal-content {
+      border-radius: 12px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #0d6efd;
+    }
+
+    .footer-note {
+      font-size: 0.85rem;
+      color: #6c757d;
+      text-align: center;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="container py-5">
+    <div class="card p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestión de Órdenes</h1>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-primary" @click="loadOrders">Actualizar</button>
+          <button class="btn btn-primary" @click="openForm">Nueva Orden</button>
+        </div>
+      </div>
+
+      <!-- Tabla -->
+      <div class="table-responsive">
+        <table class="table align-middle table-bordered mb-0">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Cliente</th>
+              <th style="width: 25%;">Fecha</th>
+              <th style="width: 20%;">Total</th>
+              <th style="width: 25%;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="order in orders" :key="order.id">
+              <td class="fw-semibold">{{ order.cliente }}</td>
+              <td>{{ formatDate(order.fecha) }}</td>
+              <td>$ {{ order.total.toFixed(2) }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-warning me-1" @click="editOrder(order)">Editar</button>
+                <button class="btn btn-sm btn-outline-danger" @click="deleteOrder(order.id)">Eliminar</button>
+              </td>
+            </tr>
+            <tr v-if="orders.length === 0">
+              <td colspan="4" class="text-muted text-center py-3">No hay órdenes registradas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="footer-note">Sistema de Gestión de Órdenes — Ejemplo con Vue 3 + Bootstrap 5</p>
+
+    <!-- Modal -->
+    <div class="modal fade" tabindex="-1" ref="modal">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">{{ editingOrder ? 'Editar Orden' : 'Nueva Orden' }}</h5>
+            <button type="button" class="btn-close btn-close-white" @click="closeForm"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Cliente</label>
+              <input type="text" class="form-control" v-model="form.cliente" placeholder="Nombre del cliente">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Fecha</label>
+              <input type="date" class="form-control" v-model="form.fecha">
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Total (USD)</label>
+              <input type="number" step="0.01" class="form-control" v-model.number="form.total" placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-secondary" @click="closeForm">Cancelar</button>
+            <button class="btn btn-primary" @click="saveOrder">
+              {{ editingOrder ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          orders: [],
+          editingOrder: null,
+          form: { cliente: '', fecha: '', total: 0 },
+          apiBase: window.location.origin + '/orders',
+        };
+      },
+      mounted() {
+        this.loadOrders();
+      },
+      methods: {
+        async loadOrders() {
+          try {
+            const res = await axios.get(this.apiBase);
+            this.orders = res.data;
+          } catch (err) {
+            console.error(err);
+            alert("No se pudieron cargar las órdenes. Verifica el backend.");
+          }
+        },
+        formatDate(date) {
+          return new Date(date).toLocaleDateString('es-ES');
+        },
+        openForm() {
+          this.editingOrder = null;
+          this.form = { cliente: '', fecha: '', total: 0 };
+          const modal = new bootstrap.Modal(this.$refs.modal);
+          modal.show();
+        },
+        closeForm() {
+          const modal = bootstrap.Modal.getInstance(this.$refs.modal);
+          modal.hide();
+        },
+        async saveOrder() {
+          if (!this.form.cliente || this.form.total <= 0) {
+            alert("Por favor completa los campos correctamente.");
+            return;
+          }
+          try {
+            if (this.editingOrder) {
+              await axios.put(`${this.apiBase}/${this.editingOrder.id}`, this.form);
+            } else {
+              await axios.post(this.apiBase, this.form);
+            }
+            this.closeForm();
+            this.loadOrders();
+          } catch (err) {
+            console.error(err);
+            alert("Error guardando la orden.");
+          }
+        },
+        editOrder(order) {
+          this.editingOrder = order;
+          this.form = {
+            cliente: order.cliente,
+            fecha: order.fecha.split('T')[0],
+            total: order.total,
+          };
+          const modal = new bootstrap.Modal(this.$refs.modal);
+          modal.show();
+        },
+        async deleteOrder(id) {
+          if (confirm("¿Seguro que deseas eliminar esta orden?")) {
+            await axios.delete(`${this.apiBase}/${id}`);
+            this.loadOrders();
+          }
+        },
+      },
+    }).mount('#app');
+  </script>
+</body>
 </html>

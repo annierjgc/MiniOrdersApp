@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniOrdersApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+291f906dff0ba7a3d4f0b42e075b4725398689a3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5942d3d301a9ef262a1505acf975392385b85ac")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniOrdersApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniOrdersApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
