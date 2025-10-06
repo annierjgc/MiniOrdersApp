@@ -1,7 +1,7 @@
 # MiniOrdersApp
 Challenge Técnico – Mini Orders App
 
-Clonar el proyecto en su maquina local
+# Debe clonar el proyecto en su maquina local
 # Como correr el Backend
 Abra la carpeta Backend con visual Studio y corra el programa presionando el botos correr https que se encuentra en la parte superior en la barra de herramientas.
 Tambien puede abrir una terminal o consola en la carpeta raíz del proyecto y ejecuta el comando "dotnet run"
