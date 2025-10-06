@@ -12,3 +12,8 @@ Tambien puede abrir una terminal o consola en la carpeta raíz del proyecto y ej
 # Como correr el Frontend
 Para correr el frontend abra el proyecto en visual Studio Code y en la carpeta MiniOrders abra la Terminal y ejecute el comando "npm run dev".
 Otra alternativa para correr el proyecto es dirigirse a la carpeta ..frontend/MiniOrders hacer click derecho en la carpeta y abrir en terminal. En la terminal ejecute el comando "npm run dev", el frontend ya esta ejecutandose. Luego en la terminal presione la letra "o" luego presione enter para abrir el proyecto en el navegador.
+
+<img width="624" height="238" alt="image" src="https://github.com/user-attachments/assets/5eba60dd-4491-4d9a-92dc-81a49bcf62f0" />
+
+<img width="580" height="214" alt="image" src="https://github.com/user-attachments/assets/b21dbb7e-504f-4a86-a626-b28cec26bb51" />
+
